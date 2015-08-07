@@ -1,4 +1,4 @@
-<img src="https://github.com/atomicjolt/atomic-form/AtomicForm.png" width="300"/>
+<img src="https://raw.githubusercontent.com/atomicjolt/atomic-form/master/AtomicForm.png" width="500"/>
 
 A complete component for building React Forms.
 
