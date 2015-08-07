@@ -1,0 +1,70 @@
+{
+  "name": "atomic-form",
+  "version": "0.0.1",
+  "description": "A React form with data collection and validation.",
+  "main": "lib/index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atomicjolt/atomic-form.git"
+  },
+  "homepage": "https://atomicjolt.github.io/atomic-form/",
+  "bugs": "https://github.com/atomicjolt/atomic-form/issues",
+  "scripts": {
+    "build": "scripts/build.sh",
+    "watch": "babel ./src --watch -d lib",
+    "prepublish": "npm run build",
+    "test": "karma start"
+  },
+  "authors": [
+    "Jaden Holladay",
+    "Justin Ball"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~3.10.0",
+    "validator": "^3.40.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.9",
+    "babel-core": "^5.8.9",
+    "babel-eslint": "^4.0.5",
+    "babel-loader": "^5.3.2",
+    "babel-plugin-object-assign": "^1.2.1",
+    "bundle-loader": "^0.5.4",
+    "eslint": "^0.24.1",
+    "istanbul": "^0.3.17",
+    "istanbul-instrumenter-loader": "^0.1.3",
+    "jasmine-core": "^2.3.4",
+    "jshint": "^2.8.0",
+    "jshint-loader": "^0.8.3",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.12.37",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-cli": "0.1.0",
+    "karma-coverage": "^0.4.2",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.6",
+    "karma-jasmine-ajax": "^0.1.12",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-sourcemap-loader": "^0.3.5",
+    "karma-spec-reporter": "0.0.20",
+    "karma-webpack": "^1.6.0",
+    "react": "0.13.x",
+    "webpack": "^1.10.5",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "tags": [
+    "react",
+    "forms"
+  ],
+  "keywords": [
+    "react",
+    "react-component",
+    "forms",
+    "form",
+    "validation",
+    "data-binding",
+    "data-collection"
+  ]
+}
