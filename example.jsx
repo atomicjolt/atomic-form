@@ -67,7 +67,7 @@ export default class RegisterForm extends React.createClass({
               validate: "isEmail",
             }
           ]} onChange={(e) => {this.onInputChange}}/>
-          {validationMessage("email")}
+          {this.validationMessage("email")}
           <input type="text" ref="password" validate={[
             {
               message: "Password must be at least 5 characters long.",
@@ -75,14 +75,14 @@ export default class RegisterForm extends React.createClass({
               args: [5]
             }
           ]}/>
-          {validationMessage("password")}
+          {this.validationMessage("password")}
           <input type="text" ref="confirmPassword" validate={[
             {
               message: "Passwords must match",
               validate: (val, formData) => {val == formData.password},
             }
           ]}/>
-          {validationMessage("confirmPassword")}
+          {this.validationMessage("confirmPassword")}
           <input type="submit" value="Submit"/>
         </div>
       </AtomicForm>

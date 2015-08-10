@@ -59,6 +59,24 @@ describe('Atomic Forms', ()=>{
       expect(Errors.test1.isValid).toBe(false);
     });
 
+    it('All valid returns false with an invalid email', () => {
+      var formData = {
+        "test1": "testing@example"
+      }
+      var Validation = form.validateForm(formData);
+      var Errors = form.allValid(Validation);
+      expect(Errors).toBe(false);
+    });
+
+    it('All valid returns true with a valid email', () => {
+      var formData = {
+        "test1": "testing@example.com"
+      }
+      var Validation = form.validateForm(formData);
+      var Errors = form.allValid(Validation);
+      expect(Errors).toBe(true);
+    });
+
     it('Has email validation errors', () => {
       var node = React.findDOMNode(form.refs.test1);
       node.value = "testing@example"

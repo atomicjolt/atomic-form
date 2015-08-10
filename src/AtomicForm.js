@@ -53,7 +53,7 @@ export default class AtomicForm extends React.Component {
   }
 
   allValid(formValidation) {
-    return _.every(_.values(formValidation), function(v) {return v;});
+    return _.every(_.values(formValidation), function(v) { return v.isValid; });
   }
 
   validateForm(formData) {
