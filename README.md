@@ -73,15 +73,15 @@ export default class RegisterForm extends React.createClass({
   onInputChange() {
     //Optional - If we want to validate the form from an onChange callback.
     var formData = this.refs.MainForm.formData();
-    var formValidations = this.refs.MainForm.validate(formData);
+    var formValidations = this.refs.MainForm.validateForm(formData);
     this.setState(validations: formValidations);
   }
 
   validationMessage(field) {
-    if (this.state.valid && this.state.valid[field]) {
-      if (!this.state.valid[field].isValid) {
-        return _.map(this.state.valid[field].message, (message) => {
-          return <span>message</span>;
+    if (this.state.validations && this.state.validations[field]) {
+      if (!this.state.validations[field].isValid) {
+        return _.map(this.state.validations[field].message, (message) => {
+          return <span>{message}</span>;
         });
       }
     }
@@ -98,7 +98,7 @@ export default class RegisterForm extends React.createClass({
               validate: "isEmail",
             }
           ]} onChange={(e) => {this.onInputChange}}/>
-          {validationMessage("email")}
+          {this.validationMessage("email")}
           <input type="text" ref="password" validate={[
             {
               message: "Password must be at least 5 characters long.",
@@ -106,14 +106,14 @@ export default class RegisterForm extends React.createClass({
               args: [5]
             }
           ]}/>
-          {validationMessage("password")}
+          {this.validationMessage("password")}
           <input type="text" ref="confirmPassword" validate={[
             {
               message: "Passwords must match",
               validate: (val, formData) => {val == formData.password},
             }
           ]}/>
-          {validationMessage("confirmPassword")}
+          {this.validationMessage("confirmPassword")}
           <input type="submit" value="Submit"/>
         </div>
       </AtomicForm>

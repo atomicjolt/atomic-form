@@ -45,7 +45,7 @@ export default class AtomicForm extends React.Component {
     var formData = this.formData();
     var formValidation = this.validateForm(formData);
     if (this.allValid(formValidation)) {
-      this.props.doSubmit(formData);
+      this.props.doSubmit(formData, formValidation);
     } else {
       this.props.afterValidation(formValidation);
       this.setState({formData:formData});
@@ -87,12 +87,16 @@ export default class AtomicForm extends React.Component {
   }
 
   formData() {
-    var formData = {};
-    _.forEach(this.refs, (val, key) => {
-      var domNode = React.findDOMNode(this.refs[key]);
-      formData[key] = domNode && domNode.value;
-    }.bind(this));
-    return formData;
+    if (this.props.collectFormData) {
+      return this.props.collectFormData(this.refs);
+    } else {
+      var formData = {};
+      _.forEach(this.refs, (val, key) => {
+        var domNode = React.findDOMNode(this.refs[key]);
+        formData[key] = domNode && domNode.value;
+      }.bind(this));
+      return formData;
+    }
   }
 
   // By default React will discard refs from the children. We override the behavior to include the refs
