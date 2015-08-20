@@ -9,6 +9,7 @@ export default class AtomicForm extends React.Component {
     this.validateForm = this.validateForm.bind(this);
     this.allValid = this.allValid.bind(this);
     this.formData = this.formData.bind(this);
+    this.getFormValue = this.getFormValue.bind(this);
     this.recursiveCloneChildren = this.recursiveCloneChildren.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = this.getState();
@@ -35,9 +36,13 @@ export default class AtomicForm extends React.Component {
   }
 
   updateFormData() {
-    _.forEach(this.refs, function(val, key) {
-      val.getDOMNode().value = this.state.formData && this.state.formData[key] || null;
-    }.bind(this));
+    if (this.props.updateFormData) {
+      return this.props.updateFormData(this.refs);
+    } else {
+      _.forEach(this.refs, function(val, key) {
+        val.getDOMNode().value = this.getFormValue(key);
+      }.bind(this));
+    }
   }
 
   handleSubmit(e) {
@@ -91,12 +96,38 @@ export default class AtomicForm extends React.Component {
       return this.props.collectFormData(this.refs);
     } else {
       var formData = {};
-      _.forEach(this.refs, (val, key) => {
-        var domNode = React.findDOMNode(this.refs[key]);
-        formData[key] = domNode && domNode.value;
+      _.forEach(this.refs, (val, ref) => {
+        var domNode = React.findDOMNode(this.refs[ref]);
+        var keyArray = ref.split(".");
+        if (keyArray.length > 1) {
+          var firstKey = keyArray.shift();
+          var data = {};
+          data[keyArray.pop()] = domNode.value;
+          while(keyArray.length > 0) {
+            var temp = {};
+            temp[keyArray.pop()] = data;
+            data = temp;
+          }
+          formData[firstKey] = _.merge(data, formData[firstKey])
+        } else {
+          formData[ref] = domNode.value;
+        }
       }.bind(this));
       return formData;
     }
+  }
+
+  getFormValue(ref) {
+    var keyArray = ref.split(".");
+    var value = this.state.formData;
+    _.forEach(keyArray, (key) => {
+      if (_.last(keyArray) == key) {
+        value = value[key] || '';
+      } else {
+        value = value[key] || {};
+      }
+    }.bind(this))
+    return value;
   }
 
   // By default React will discard refs from the children. We override the behavior to include the refs

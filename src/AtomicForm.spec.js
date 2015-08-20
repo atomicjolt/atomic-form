@@ -243,4 +243,39 @@ describe('Atomic Forms', ()=>{
       });
     });
   });
+
+  describe('A form that has complex initial data', ()=>{
+    var initialData = {
+      test: {
+        test1: "someData"
+      },
+      test2: {
+        test1: {
+          test3: "otherData",
+          test2: "otherData2"
+        }
+      }
+    }
+
+    beforeEach(()=>{
+      form = TestUtils.renderIntoDocument(
+        <AtomicForm initialData={initialData}>
+          <div className="row">
+            <input type="text" ref="test.test1"/>
+            <input type="text" ref="test2.test1.test3"/>
+            <input type="text" ref="test2.test1.test2"/>
+          </div>
+        </AtomicForm>
+      );
+    });
+
+    it('Allows the user to set initial data by traversing down a tree', () => {
+      form.updateFormData();
+      var formData = form.formData();
+      expect(formData.test.test1).toEqual("someData");
+      expect(formData.test2.test1.test3).toEqual("otherData");
+      expect(formData.test2.test1.test2).toEqual("otherData2");
+    });
+
+  });
 });
