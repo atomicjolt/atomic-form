@@ -63,7 +63,7 @@ export default class AtomicForm extends React.Component {
 
   validateForm(formData) {
     var result = {};
-    _.forEach(formData, (val, key) => {
+    _.forEach(this.refs, (val, key) => {
       var validators = this.refs[key].props.validate;
       result[key] = {};
       result[key].isValid = true;

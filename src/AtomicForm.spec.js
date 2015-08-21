@@ -186,7 +186,7 @@ describe('Atomic Forms', ()=>{
       );
     });
 
-    it('Return many error messages', () => {
+    it('returns many error messages', () => {
       var validation = form.validateForm({
         "Email": ""
       });
@@ -198,7 +198,7 @@ describe('Atomic Forms', ()=>{
       });
     });
 
-    it('Passes many validations', () => {
+    it('passes many validations', () => {
       var validation = form.validateForm({
         "Email": "testing@example.com"
       });
@@ -275,6 +275,13 @@ describe('Atomic Forms', ()=>{
       expect(formData.test.test1).toEqual("someData");
       expect(formData.test2.test1.test3).toEqual("otherData");
       expect(formData.test2.test1.test2).toEqual("otherData2");
+    });
+
+    it('validates with a complex data structure', () => {
+      form.updateFormData();
+      var formData = form.formData();
+      var formValidations = form.validateForm(formData);
+
     });
 
   });
