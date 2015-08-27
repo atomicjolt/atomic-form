@@ -142,7 +142,7 @@ describe('Atomic Forms', ()=>{
       form.updateFormData();
       expect(form.formData()).toEqual({
         "Bike1": "true",
-        "Bike2": "",
+        "Bike2": "false",
         "Terms": "true",
       });
     });
