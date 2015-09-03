@@ -1,5 +1,3 @@
-"use strict";
-
 import React        from 'react';
 import TestUtils    from 'react/lib/ReactTestUtils';
 import AtomicForm    from './AtomicForm';
@@ -100,6 +98,7 @@ describe('Atomic Forms', ()=>{
   describe('A form that has checkboxes', ()=>{
     var initialData = {
       "Bike1": true,
+      "Bike2": false,
       "Terms": true
     }
 

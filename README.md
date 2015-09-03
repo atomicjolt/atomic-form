@@ -10,6 +10,8 @@ A complete component for building React Forms.
 - Use multiple validations on a single input.
 - Recieve and display multiple validation message errors.
 
+## Video
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/r_tljStPKmk/0.jpg)](http://www.youtube.com/watch?v=r_tljStPKmk)
 
 ## Installation
 
@@ -25,6 +27,14 @@ import AtomicForm from 'atomic-form';
 // not using an ES6 transpiler
 var AtomicForm = require('atomic-form');
 ```
+
+## AtomicForm Props
+- **doSubmit**: A callback that will be used when all validations are successful. The callback will be invoked with a single parameter containing formData.
+- **afterValidation**: A callback that will be used when any validations fail. The callback will have a single parameter containing form validation errors/messages.
+- initialData: (Optional) An object that will be used to populate the form with initial data.
+- getState: (Optional) Allows for complete override of the getState method.
+- updateFormData: (Optional) Allows for complete override of the updateFormData method.
+- collectFormData: (Optional) Allows for complete override of the formData method.
 
 ## What's it look like?
 

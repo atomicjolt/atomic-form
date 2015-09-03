@@ -41,7 +41,7 @@ export default class AtomicForm extends React.Component {
     } else {
       _.forEach(this.refs, function(val, key) {
         var value = this.getFormValue(key);
-        if (!_.isEmpty(value)) {
+        if (!_.isEmpty(value) || _.isBoolean(value)) {
           val.getDOMNode().value = value;
         }
       }.bind(this));
