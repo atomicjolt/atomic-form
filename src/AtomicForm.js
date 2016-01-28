@@ -139,7 +139,24 @@ export default class AtomicForm extends React.Component {
     return React.Children.map(children, child => {
       if(!_.isObject(child)) return child;
       var childProps = {};
-      childProps.ref = child.ref;
+      if(child.ref) {
+        var func;
+        if(child.props.type == "checkbox" || child.props.type == "radio") {
+          func = () => {
+            var formData = this.state.formData;
+            formData[child.ref] = this.refs[child.ref].getDOMNode().checked;
+            this.setState({formData: formData});
+          };
+        } else {
+          func = () => {
+            var formData = this.state.formData;
+            formData[child.ref] = this.refs[child.ref].getDOMNode().value;
+            this.setState({formData: formData});
+          }
+        }
+        childProps.onChange = func;
+        childProps.ref = child.ref;
+      }
       childProps.children = this.recursiveCloneChildren(child.props.children);
       return React.cloneElement(child, childProps);
     })
