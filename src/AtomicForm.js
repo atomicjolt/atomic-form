@@ -43,7 +43,7 @@ export default class AtomicForm extends React.Component {
       _.forEach(this.refs, function(val, key) {
         var value = this.getFormValue(key);
         if (!_.isEmpty(value) || _.isBoolean(value)) {
-          val.getDOMNode().value = value;
+          ReactDom.findDOMNode(val).value = value;
         }
       }.bind(this));
     }
@@ -145,13 +145,13 @@ export default class AtomicForm extends React.Component {
         if(child.props.type == "checkbox" || child.props.type == "radio") {
           func = () => {
             var formData = this.state.formData;
-            formData[child.ref] = this.refs[child.ref].getDOMNode().checked;
+            formData[child.ref] = ReactDom.findDOMNode(this.refs[child.ref]).checked;
             this.setState({formData: formData});
           };
         } else {
           func = () => {
             var formData = this.state.formData;
-            formData[child.ref] = this.refs[child.ref].getDOMNode().value;
+            formData[child.ref] = ReactDom.findDOMNode(this.refs[child.ref]).value;
             this.setState({formData: formData});
           }
         }
