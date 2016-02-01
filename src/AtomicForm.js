@@ -1,4 +1,5 @@
 import React           from "react";
+import ReactDom        from "react-dom";
 import _               from "lodash";
 import Validator       from "validator";
 
@@ -100,7 +101,7 @@ export default class AtomicForm extends React.Component {
     } else {
       var formData = {};
       _.forEach(this.refs, (val, ref) => {
-        var domNode = React.findDOMNode(this.refs[ref]);
+        var domNode = ReactDom.findDOMNode(this.refs[ref]);
         var keyArray = ref.split(".");
         if (keyArray.length > 1) {
           var firstKey = keyArray.shift();
