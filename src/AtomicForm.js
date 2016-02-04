@@ -1,5 +1,4 @@
 import React           from "react";
-import ReactDom        from "react-dom";
 import _               from "lodash";
 import Validator       from "validator";
 
@@ -40,10 +39,10 @@ export default class AtomicForm extends React.Component {
     if (this.props.updateFormData) {
       return this.props.updateFormData(this.refs);
     } else {
-      _.forEach(this.refs, function(val, key) {
+      _.forEach(this.refs, function(ref, key) {
         var value = this.getFormValue(key);
         if (!_.isEmpty(value) || _.isBoolean(value)) {
-          ReactDom.findDOMNode(val).value = value;
+          ref.value = value;
         }
       }.bind(this));
     }
@@ -101,7 +100,7 @@ export default class AtomicForm extends React.Component {
     } else {
       var formData = {};
       _.forEach(this.refs, (val, ref) => {
-        var domNode = ReactDom.findDOMNode(this.refs[ref]);
+        var domNode = this.refs[ref];
         var keyArray = ref.split(".");
         if (keyArray.length > 1) {
           var firstKey = keyArray.shift();
@@ -122,16 +121,7 @@ export default class AtomicForm extends React.Component {
   }
 
   getFormValue(ref) {
-    var keyArray = ref.split(".");
-    var value = this.state.formData;
-    _.forEach(keyArray, (key) => {
-      if (_.last(keyArray) == key) {
-        value = value[key] || '';
-      } else {
-        value = value[key] || {};
-      }
-    }.bind(this))
-    return value;
+    return _.at(this.state.formData, ref);
   }
 
   // By default React will discard refs from the children. We override the behavior to include the refs
@@ -141,21 +131,12 @@ export default class AtomicForm extends React.Component {
       if(!_.isObject(child)) return child;
       var childProps = {};
       if(child.ref) {
-        var func;
-        if(child.props.type == "checkbox" || child.props.type == "radio") {
-          func = () => {
-            var formData = this.state.formData;
-            formData[child.ref] = ReactDom.findDOMNode(this.refs[child.ref]).checked;
-            this.setState({formData: formData});
-          };
-        } else {
-          func = () => {
-            var formData = this.state.formData;
-            formData[child.ref] = ReactDom.findDOMNode(this.refs[child.ref]).value;
-            this.setState({formData: formData});
-          }
-        }
-        childProps.onChange = func;
+        var valKey = child.props.type == "checkbox" || child.props.type == "radio" ? 'checked' : 'value';
+        childProps.onChange = (e) => {
+          var formData = this.state.formData;
+          _.set(formData, child.ref, this.refs[child.ref][valKey]);
+          this.setState({formData: formData});
+        };
         childProps.ref = child.ref;
       }
       childProps.children = this.recursiveCloneChildren(child.props.children);
