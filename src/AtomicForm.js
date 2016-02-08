@@ -121,7 +121,7 @@ export default class AtomicForm extends React.Component {
   }
 
   getFormValue(ref) {
-    return _.at(this.state.formData, ref);
+    return _.get(this.state.formData, ref);
   }
 
   // By default React will discard refs from the children. We override the behavior to include the refs
