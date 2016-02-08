@@ -42,7 +42,7 @@ export default class AtomicForm extends React.Component {
       _.forEach(this.refs, function(ref, key) {
         var value = this.getFormValue(key);
         if (!_.isEmpty(value) || _.isBoolean(value)) {
-          ref.value = value;
+          ref.getDOMNode().value = value;
         }
       }.bind(this));
     }
@@ -138,7 +138,7 @@ export default class AtomicForm extends React.Component {
             oldOnChange(e);
           }
           var formData = this.state.formData;
-          _.set(formData, child.ref, this.refs[child.ref][valKey]);
+          _.set(formData, child.ref, this.refs[child.ref].getDOMNode()[valKey]);
           this.setState({formData: formData});
         };
         childProps.ref = child.ref;
