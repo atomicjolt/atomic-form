@@ -8,7 +8,6 @@ export default class AtomicForm extends React.Component {
     super(props, context);
     this.validateForm = this.validateForm.bind(this);
     this.allValid = this.allValid.bind(this);
-    this.formData = this.formData.bind(this);
     this.getFormValue = this.getFormValue.bind(this);
     this.recursiveCloneChildren = this.recursiveCloneChildren.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,26 +30,9 @@ export default class AtomicForm extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    this.updateFormData();
-  }
-
-  updateFormData() {
-    if (this.props.updateFormData) {
-      return this.props.updateFormData(this.refs);
-    } else {
-      _.forEach(this.refs, function(ref, key) {
-        var value = this.getFormValue(key);
-        if (!_.isEmpty(value) || _.isBoolean(value)) {
-          ref.value = value;
-        }
-      }.bind(this));
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault();
-    var formData = this.formData();
+    var formData = this.state.formData;
     var formValidation = this.validateForm(formData);
     if (this.allValid(formValidation)) {
       this.props.doSubmit(formData, formValidation);
@@ -64,26 +46,26 @@ export default class AtomicForm extends React.Component {
     return _.every(_.values(formValidation), function(v) { return v.isValid; });
   }
 
-  validateForm(formData) {
+  validateForm() {
     var result = {};
-    _.forEach(this.refs, (val, key) => {
-      var validators = this.refs[key].validate;
-      result[key] = {};
-      result[key].isValid = true;
+    _.each(this.refs, (val, ref) => {
+      var validators = this.refs[ref].props.validate;
+      result[ref] = {};
+      result[ref].isValid = true;
       if(validators){
         if(_.isArray(validators)){
           _.forEach(validators, (validator) => {
             if(_.isFunction(validator.validate)){
-              result[key].isValid = result[key].isValid && validator.validate(formData[key], formData);
+              result[ref].isValid = result[ref].isValid && validator.validate(_.get(this.state.formData, ref), this.state.formData);
             } else if (validator.validate == "isPresent") {
-              result[key].isValid = result[key].isValid && !!formData[key];
+              result[ref].isValid = result[ref].isValid && !!_.get(this.state.formData, ref);
             } else {
               var args = validator.args || [];
-              result[key].isValid = result[key].isValid && Validator[validator.validate](formData[key], ...args);
+              result[ref].isValid = result[ref].isValid && Validator[validator.validate](_.get(this.state.formData, ref), ...args);
             }
-            if (!result[key].isValid) {
-              result[key].message = result[key].message || [];
-              result[key].message.push(validator.message || "");
+            if (!result[ref].isValid) {
+              result[ref].message = result[ref].message || [];
+              result[ref].message.push(validator.message || "");
             }
           }.bind(this));
         } else {
@@ -92,32 +74,6 @@ export default class AtomicForm extends React.Component {
       }
     }.bind(this));
     return result;
-  }
-
-  formData() {
-    if (this.props.collectFormData) {
-      return this.props.collectFormData(this.refs);
-    } else {
-      var formData = {};
-      _.forEach(this.refs, (val, ref) => {
-        var domNode = this.refs[ref];
-        var keyArray = ref.split(".");
-        if (keyArray.length > 1) {
-          var firstKey = keyArray.shift();
-          var data = {};
-          data[keyArray.pop()] = domNode.value;
-          while(keyArray.length > 0) {
-            var temp = {};
-            temp[keyArray.pop()] = data;
-            data = temp;
-          }
-          formData[firstKey] = _.merge(data, formData[firstKey])
-        } else {
-          formData[ref] = domNode.value;
-        }
-      }.bind(this));
-      return formData;
-    }
   }
 
   getFormValue(ref) {
@@ -142,6 +98,7 @@ export default class AtomicForm extends React.Component {
           this.setState({formData: formData});
         };
         childProps.ref = child.ref;
+        childProps.value = _.get(this.state.formData, child.ref);
       }
       childProps.children = this.recursiveCloneChildren(child.props.children);
       return React.cloneElement(child, childProps);
