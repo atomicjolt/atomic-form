@@ -98,7 +98,7 @@ export default class AtomicForm extends React.Component {
           this.setState({formData: formData});
         };
         childProps.ref = child.ref;
-        childProps.value = _.get(this.state.formData, child.ref);
+        childProps[valKey] = _.get(this.state.formData, child.ref);
       }
       childProps.children = this.recursiveCloneChildren(child.props.children);
       return React.cloneElement(child, childProps);
