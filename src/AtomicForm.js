@@ -25,7 +25,7 @@ export default class AtomicForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (_.isEmpty(this.state.formData) && !_.isEmpty(nextProps.initialData)) {
+    if ((_.isEmpty(this.state.formData) && !_.isEmpty(nextProps.initialData)) || !_.isEqual(this.props.initialData, nextProps.initialData)) {
       this.setState({formData: nextProps.initialData});
     }
   }
