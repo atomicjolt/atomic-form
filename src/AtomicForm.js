@@ -87,14 +87,21 @@ export default class AtomicForm extends React.Component {
       if(!_.isObject(child)) return child;
       var childProps = {};
       if(child.ref) {
-        var valKey = child.props.type == "checkbox" || child.props.type == "radio" ? 'checked' : 'value';
         var oldOnChange = child.props.onChange;
-        childProps.onChange = (e) => {
+        var valKey = child.props.type == "checkbox" || child.props.type == "radio" ? 'checked' : 'value';
+
+        childProps.onChange = (...args) => {
           if (typeof oldOnChange == 'function') {
-            oldOnChange(e);
+            oldOnChange(...args);
           }
-          var formData = this.state.formData;
-          _.set(formData, child.ref, this.refs[child.ref][valKey]);
+          var formData = _.cloneDeep(this.state.formData);
+
+          if(typeof child.props.__getOnChangeFormValue == 'function') {
+            _.set(formData, child.ref, child.props.__getOnChangeFormValue(...args));
+          } else {
+            _.set(formData, child.ref, this.refs[child.ref][valKey]);
+          }
+
           this.setState({formData: formData});
         };
         childProps.ref = child.ref;
