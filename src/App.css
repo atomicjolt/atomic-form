@@ -1,0 +1,9 @@
+.aje-input,
+.aje-checkbox,
+.aje-toggle-switch,
+.aje-radio-group {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem !important;
+  width: 100%;
+  display: block;
+}
