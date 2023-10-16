@@ -1,7 +1,7 @@
 ![Atomic Form Logo](./AtomicForm.png)
 
 # @atomicjolt/forms
-`@atomicjoplt/forms` is a collection of React components for building forms, built on top of [react-hook-form](https://react-hook-form.com/) and [atomic-elements](https://atomicjolt.github.io/atomic-elements).
+`@atomicjolt/forms` is a collection of React components for building forms, built on top of [react-hook-form](https://react-hook-form.com/) and [atomic-elements](https://atomicjolt.github.io/atomic-elements).
 
 ## Installation
 
