@@ -1,138 +1,254 @@
-<img src="https://raw.githubusercontent.com/atomicjolt/atomic-form/master/AtomicForm.png" width="500"/>
+![Atomic Form Logo](./AtomicForm.png)
 
-A complete component for building React Forms.
-
-## Features
-- Atomic Forms integrates with [Validator](https://www.npmjs.com/package/validator) for quick validations.
-- Custom functions for validation, including validating against other form fields.
-- Validate/Gather form data as users inputs data.
-- Populate forms with initial data.
-- Use multiple validations on a single input.
-- Recieve and display multiple validation message errors.
-
-## Video
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/r_tljStPKmk/0.jpg)](http://www.youtube.com/watch?v=r_tljStPKmk)
+# @atomicjolt/forms
+`@atomicjoplt/forms` is a collection of React components for building forms, built on top of [react-hook-form](https://react-hook-form.com/) and [atomic-elements](https://atomicjolt.github.io/atomic-elements).
 
 ## Installation
 
 ```sh
-npm install atomic-form
+npm install --save @atomicjolt/forms
 ```
 
-Then with a module bundler or webpack, use as you would anything else:
-
-```js
-// using an ES6 transpiler
-import AtomicForm from 'atomic-form';
-// not using an ES6 transpiler
-var AtomicForm = require('atomic-form');
+```sh
+yarn add @atomicjolt/forms
 ```
 
-## AtomicForm Props
-- **doSubmit**: A callback that will be used when all validations are successful. The callback will be invoked with a single parameter containing formData.
-- **afterValidation**: A callback that will be used when any validations fail. The callback will have a single parameter containing form validation errors/messages.
-- initialData: (Optional) An object that will be used to populate the form with initial data.
-- getState: (Optional) Allows for complete override of the getState method.
-- updateFormData: (Optional) Allows for complete override of the updateFormData method.
-- collectFormData: (Optional) Allows for complete override of the formData method.
+## Usage
 
-## What's it look like?
+This library is essentially a wrapper around `react-hook-form` so it's probably a good idea to read it's docs to be at least somewhat familiar with it.
 
-```js
-import AtomicForm from 'atomic-form';
-import UserAction from './actions/user';
+### Basic Example
+You must pass the `name` prop to each component in your form. This is the name that will be used to reference the value of the input in the `onSubmit` callback.
+If an input element does not have the `name` prop, it will not be included in the data in the `onSubmit` callback.
 
-export default class RegisterForm extends React.createClass({
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
 
-  constructor(props, context){
-    super(props, context);
-    this.state = this.getState();
-  }
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+     // { firstName: "John", lastName: "Doe", age: 21 }
+   }
 
-  getState() {
-    //Optional - Set form initial data.
-    return {
-      initialData: {
-        email: "test@example.com",
-        password: "example",
-        confirmPassword: "example"
-      }
-    }
-  }
-
-  afterValidation(formValidations) {
-    //Callback after validation fails.
-    this.setState({validations: formValidations});
-  }
-
-  doSubmit(formData) {
-    //Callback after a user hits submit and the formdata is all valid.
-    UserAction.register({
-      User: {
-        email: formData.email,
-        password: formData.password
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    //Optional - We can get the formData from our form anytime.
-    var formData = this.refs.MainForm.formData();
-  }
-
-  onInputChange() {
-    //Optional - If we want to validate the form from an onChange callback.
-    var formData = this.refs.MainForm.formData();
-    var formValidations = this.refs.MainForm.validateForm(formData);
-    this.setState(validations: formValidations);
-  }
-
-  validationMessage(field) {
-    if (this.state.validations && this.state.validations[field]) {
-      if (!this.state.validations[field].isValid) {
-        return _.map(this.state.validations[field].message, (message) => {
-          return <span>{message}</span>;
-        });
-      }
-    }
-    return <div/>;
-  }
-
-  render() {
-    return <div>
-      <AtomicForm ref="MainForm" initialData={this.state.initialData} doSubmit={this.doSubmit} afterValidation={this.afterValidation}>
-        <div className="row">
-          <input type="text" ref="email" validate={[
-            {
-              message: "Must be a valid Email.",
-              validate: "isEmail",
-            }
-          ]} onChange={(e) => {this.onInputChange}}/>
-          {this.validationMessage("email")}
-          <input type="text" ref="password" validate={[
-            {
-              message: "Password must be at least 5 characters long.",
-              validate: "isLength",
-              args: [5]
-            }
-          ]}/>
-          {this.validationMessage("password")}
-          <input type="text" ref="confirmPassword" validate={[
-            {
-              message: "Passwords must match",
-              validate: (val, formData) => {val == formData.password},
-            }
-          ]}/>
-          {this.validationMessage("confirmPassword")}
-          <input type="submit" value="Submit"/>
-        </div>
-      </AtomicForm>
-    </div>
-  }
-});
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.NumberInput name="age" label="Age" />
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
 ```
-## Dependencies
-- [Lodash](https://lodash.com/) - npm install should take care of this.
 
-## Contact Us
-[Atomic Jolt Website](http://www.atomicjolt.com/)
+
+### Default Values
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+     // { firstName: "John", lastName: "Doe", age: 21 }
+   }
+
+   return (
+      <Form onSubmit={onSubmit} defaultValues={{ age: 20 }}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.NumberInput name="age" label="Age" />
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
+```
+
+Note that is you're using TypeScript, the data passed to the `onSubmit` callback's type will be inferred on the `defaultValues` prop passed to the `Form` component. Thus, you may want to provide empty default values for any that don't have a default value.
+
+```tsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+type FormData = {
+   firstName: string;
+   lastName: string;
+   age: number;
+}
+
+const MyForm = () => {
+   const onSubmit = (data: FormData) => {
+     console.log(data);
+     // { firstName: "John", lastName: "Doe", age: 21 }
+   }
+
+   const defaults: FormData = {
+      firstName: "",
+      lastName: "",
+      age: 20
+   }
+
+   return (
+      <Form onSubmit={onSubmit} defaultValues={defaults}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.NumberInput name="age" label="Age" />
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
+```
+
+
+
+### Validations
+Each component supports a set of pre-defined validations that can be passed in as props. These props essentially
+match the api of the [`react-hook-form` register() function](https://react-hook-form.com/docs/useform/register),
+but they're only exposed on the components that make sense. For example, the `Form.TextInput` component supports
+the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `min` and `max` props, but not vice versa.
+
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput
+            name="firstName"
+            label="First Name"
+            minLength={{ value: 3, message: "Name must be 3 characters or longer" }}
+            required="First names is required"
+         />
+         <Form.TextInput
+            name="lastName"
+            label="Last Name"
+            required="Last name is Required"
+         />
+         <Form.NumberInput
+            name="age"
+            label="Age"
+            min={{ value: 13, message: "You must be 13 or older to sign up" }}
+         />
+
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
+```
+Attempting to submit the above form without valid data will result in the related error
+messages being displayed below each input & the form will not submit.
+
+### Custom Validations
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.TextInput name="email" label="Email" validate={{
+            isEmail: (value) => {
+               if (!value) {
+                  return "Email is required";
+               }
+               if (!value.includes("@")) {
+                  return "Email must be valid";
+               }
+               return true;
+            }
+         }}
+         />
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
+```
+
+### Custom Components
+If you want to build your own custom form components, you can use the `useFormContext` hook to get access to the `react-hook-form` api.
+
+```jsx
+import { useFormContext } from 'react-hook-form';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <CustomInput />
+      </Form>
+   )
+}
+
+const CustomInput = () => {
+   const methods = useFormContext();
+
+   return (
+      <input {...methods.register("nestedInput")} />
+   )
+}
+```
+
+
+### FormProvider
+
+You're also free to call the `useForm()` hook yourself if you want. This gives you access to the API at the root of your form as well
+
+```jsx
+import { FormProvider, Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const methods = useForm();
+
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <FormProvider onSubmit={onSubmit} {...methods}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.NumberInput name="age" label="Age" />
+         <SubmitButton>Submit</SubmitButton>
+      </FormProvider>
+   )
+};
+```
+
+### Submitting the Form
+
+Note that the `SubmitButton` component is not required. You can use any button you want to submit the form.
+The `SubmitButton` component is just a convenience wrapper around atomic-element's Button component with the `type="submit"` prop set.
+
+
+```jsx
+import { Form } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+     // { firstName: "John", lastName: "Doe", age: 21 }
+   }
+
+   // Will work just as well :)
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.NumberInput name="age" label="Age" />
+         <button type="submit">Submit</button>
+      </Form>
+   )
+};
+```
