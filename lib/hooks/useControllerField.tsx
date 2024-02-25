@@ -5,6 +5,7 @@ interface Options {
   passRef?: boolean;
   excludeProps?: string[];
   valueProp?: string;
+  defaultValueProp?: string;
   onChangeProp?: string;
 }
 
@@ -15,9 +16,7 @@ export function useControllerField(
 ): ControllerProps {
   const {
     onBlur,
-
     deps,
-    defaultValue,
     name,
     shouldUnregister,
     // Validators
@@ -37,6 +36,7 @@ export function useControllerField(
     valueProp = "value",
     excludeProps = [],
     onChangeProp = "onChange",
+    defaultValueProp = "defaultValue",
   } = options;
 
   const { control } = useFormContext();
@@ -44,7 +44,7 @@ export function useControllerField(
   const controlProps: ControllerProps = {
     control,
     name,
-    defaultValue,
+    defaultValue: props[defaultValueProp],
     disabled: isDisabled,
     shouldUnregister,
     rules: {

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Item } from "@atomicjolt/atomic-elements";
 import { Form, FormProvider, SubmitButton } from "../lib";
 import "./App.css";
+import { ComboBox } from "@atomicjolt/atomic-elements";
 
 interface Fields {
   name: string;
@@ -12,6 +12,7 @@ interface Fields {
     choice?: string | null;
     custom?: string | null;
   };
+  address?: string;
   number: string | null;
   notifications: boolean;
   notificationFrequency: string | null;
@@ -19,17 +20,18 @@ interface Fields {
 }
 
 const defaultValues: Fields = {
-  name: "",
-  description: "",
-  age: null,
-  ethnicity: {
-    choice: "",
-    custom: null,
-  },
-  number: null,
-  notifications: false,
-  notificationFrequency: null,
-  consent: false,
+  // name: "",
+  // description: "",
+  // age: null,
+  // ethnicity: {
+  //   choice: "",
+  //   custom: null,
+  // },
+  // number: null,
+  // notifications: false,
+  // notificationFrequency: null,
+  // consent: false,
+  address: "",
 };
 
 function App() {
@@ -39,6 +41,7 @@ function App() {
   const desc = methods.watch("description");
   const ethnicity = methods.watch("ethnicity.choice");
   const notifications = methods.watch("notifications");
+  const address = methods.watch("address");
 
   return (
     <div>
@@ -103,16 +106,26 @@ function App() {
           name="number"
           label="Favorite Number"
           menuSize="medium"
+          defaultSelectedKey={"1"}
         >
           <Form.Item key="1">One</Form.Item>
           <Form.Item key="2">Two</Form.Item>
           <Form.Item key="3">Three</Form.Item>
         </Form.CustomSelect>
 
-        <br />
+        {address}
+
         <br />
 
-        <Form.ToggleSwitch name="notifications">
+        <Form.ComboBox name="address" label="Address">
+          <Form.Item key="1234 Main St">1234 Main St</Form.Item>
+          <Form.Item key="5678 Elm St">5678 Elm St</Form.Item>
+          <Form.Item key="91011 Oak St">91011 Oak St</Form.Item>
+        </Form.ComboBox>
+
+        <br />
+
+        {/* <Form.ToggleSwitch name="notifications">
           Receive Notifications
         </Form.ToggleSwitch>
 
@@ -133,7 +146,7 @@ function App() {
           isRequired="You must read the terms and conditions to continue"
         >
           I agree to the terms and conditions
-        </Form.CheckBox>
+        </Form.CheckBox> */}
 
         <br />
         <br />

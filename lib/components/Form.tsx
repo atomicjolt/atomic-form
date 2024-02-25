@@ -8,6 +8,7 @@ import {
   FormTextInput,
   FormToggleSwitch,
   FormRadioGroup,
+  FormComboBox,
 } from "./inputs";
 import { FormProvider } from "./FormProvider";
 import {
@@ -69,3 +70,4 @@ Form.Section = AtomicElementsSection;
 Form.Option = AtomicElementsOption;
 Form.RadioGroup = FormRadioGroup;
 Form.Radio = AtomicElementsRadio;
+Form.ComboBox = FormComboBox;
