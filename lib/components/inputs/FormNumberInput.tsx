@@ -1,26 +1,17 @@
-import { FormInputProps } from "../../types";
-import { useFormInput } from "../../hooks/useFormInput";
 import { NumberInput } from "@atomicjolt/atomic-elements";
 import type { NumberInputProps } from "@atomicjolt/atomic-elements";
-import { errorMessage } from "../errors";
+import { Controller } from "react-hook-form";
+import { FormInputProps, PatternValidators, SizeValidators } from "../../types";
+import { useControllerField } from "../../hooks/useControllerField";
 
-export type FormNumberInputProps = FormInputProps<
-  NumberInputProps,
-  "maxLength" | "minLength" | "valueAsDate" | "valueAsNumber" | "setValueAs"
->;
+export interface FormNumberInputProps
+  extends FormInputProps<NumberInputProps, NumberInputProps["value"]>,
+    SizeValidators,
+    PatternValidators {}
 
 export function FormNumberInput(props: FormNumberInputProps) {
-  const [componentProps, registration, error] = useFormInput<NumberInputProps>({
-    ...props,
-    valueAsNumber: true,
+  const controlProps = useControllerField(props, NumberInput, {
+    passRef: true,
   });
-
-  return (
-    // @ts-ignore
-    <NumberInput
-      {...registration}
-      {...componentProps}
-      error={errorMessage(props.name, error)}
-    />
-  );
+  return <Controller {...controlProps} />;
 }

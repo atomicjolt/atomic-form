@@ -1,10 +1,10 @@
 import { FieldValues, useForm, UseFormProps } from "react-hook-form";
 import {
-  FormCheckbox,
+  FormCheckBox,
   FormCustomSelect,
   FormNumberInput,
   FormSelect,
-  FormTextarea,
+  FormTextArea,
   FormTextInput,
   FormToggleSwitch,
   FormRadioGroup,
@@ -13,6 +13,8 @@ import { FormProvider } from "./FormProvider";
 import {
   Option as AtomicElementsOption,
   Radio as AtomicElementsRadio,
+  Item as AtomicElementsItem,
+  Section as AtomicElementsSection,
 } from "@atomicjolt/atomic-elements";
 
 /** Form Component Props */
@@ -57,11 +59,13 @@ export function Form<TFieldValues extends FieldValues = FieldValues>(
 
 Form.TextInput = FormTextInput;
 Form.NumberInput = FormNumberInput;
-Form.Checkbox = FormCheckbox;
-Form.Textarea = FormTextarea;
+Form.CheckBox = FormCheckBox;
+Form.TextArea = FormTextArea;
 Form.ToggleSwitch = FormToggleSwitch;
 Form.Select = FormSelect;
 Form.CustomSelect = FormCustomSelect;
+Form.Item = AtomicElementsItem;
+Form.Section = AtomicElementsSection;
 Form.Option = AtomicElementsOption;
 Form.RadioGroup = FormRadioGroup;
 Form.Radio = AtomicElementsRadio;

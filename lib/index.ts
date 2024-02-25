@@ -6,7 +6,7 @@ export type { FormProps } from "./components/Form";
 export type { FormProviderProps } from "./components/FormProvider";
 export type { SubmitButtonProps } from "./components/SubmitButton";
 export type { FormTextInputProps } from "./components/inputs/FormTextInput";
-export type { FormTextareaProps } from "./components/inputs/FormTextarea";
+export type { FormTextAreaProps as FormTextareaProps } from "./components/inputs/FormTextArea";
 export type { FormSelectProps } from "./components/inputs/FormSelect";
 export type { FormCheckboxProps } from "./components/inputs/FormCheckbox";
 export type { FormToggleSwitchProps } from "./components/inputs/FormToggleSwitch";

@@ -24,6 +24,7 @@ export function useRegister(
     return {
       ...registration,
       onChange: (_value: any, event: any) => {
+        debugger;
         onChange(event);
       },
     };
