@@ -54,7 +54,7 @@ const MyForm = () => {
 
    return (
       <Form onSubmit={onSubmit} defaultValues={{ age: 20 }}>
-         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="firstName" label="First Name" defaultValue="John" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
          <SubmitButton>Submit</SubmitButton>
@@ -62,48 +62,12 @@ const MyForm = () => {
    )
 };
 ```
-
-Note that is you're using TypeScript, the data passed to the `onSubmit` callback's type will be inferred on the `defaultValues` prop passed to the `Form` component. Thus, you may want to provide empty default values for any that don't have a default value.
-
-```tsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
-
-type FormData = {
-   firstName: string;
-   lastName: string;
-   age: number;
-}
-
-const MyForm = () => {
-   const onSubmit = (data: FormData) => {
-     console.log(data);
-     // { firstName: "John", lastName: "Doe", age: 21 }
-   }
-
-   const defaults: FormData = {
-      firstName: "",
-      lastName: "",
-      age: 20
-   }
-
-   return (
-      <Form onSubmit={onSubmit} defaultValues={defaults}>
-         <Form.TextInput name="firstName" label="First Name" />
-         <Form.TextInput name="lastName" label="Last Name" />
-         <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
-      </Form>
-   )
-};
-```
-
-
 
 ### Validations
 Each component supports a set of pre-defined validations that can be passed in as props. These props essentially
 match the api of the [`react-hook-form` register() function](https://react-hook-form.com/docs/useform/register),
 but they're only exposed on the components that make sense. For example, the `Form.TextInput` component supports
-the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `min` and `max` props, but not vice versa.
+the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `minValue` and `maxValue` props, but not vice versa.
 
 ```jsx
 import { Form, SubmitButton } from '@atomicjolt/forms';
@@ -119,19 +83,18 @@ const MyForm = () => {
             name="firstName"
             label="First Name"
             minLength={{ value: 3, message: "Name must be 3 characters or longer" }}
-            required="First names is required"
+            isRequired="First names is required"
          />
          <Form.TextInput
             name="lastName"
             label="Last Name"
-            required="Last name is Required"
+            isRequired="Last name is Required"
          />
          <Form.NumberInput
             name="age"
             label="Age"
-            min={{ value: 13, message: "You must be 13 or older to sign up" }}
+            minValue={{ value: 13, message: "You must be 13 or older to sign up" }}
          />
-
          <SubmitButton>Submit</SubmitButton>
       </Form>
    )
@@ -153,6 +116,36 @@ const MyForm = () => {
       <Form onSubmit={onSubmit}>
          <Form.TextInput name="firstName" label="First Name" />
          <Form.TextInput name="lastName" label="Last Name" />
+         <Form.TextInput name="email" label="Email" validate={(value) => {
+               if (!value) {
+                  return "Email is required";
+               }
+               if (!value.includes("@")) {
+                  return "Email must be valid";
+               }
+               return true;
+            }
+         }
+         />
+         <SubmitButton>Submit</SubmitButton>
+      </Form>
+   )
+};
+```
+If you have multiple validations, you can also pass in an object
+
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
          <Form.TextInput name="email" label="Email" validate={{
             isEmail: (value) => {
                if (!value) {
@@ -160,6 +153,15 @@ const MyForm = () => {
                }
                if (!value.includes("@")) {
                   return "Email must be valid";
+               }
+               return true;
+            }
+            isDomainEmail: (value) => {
+               if (!value) {
+                  return "Email is required";
+               }
+               if (!value.includes("@domain.com")) {
+                  return "Email must be from domain.com";
                }
                return true;
             }
