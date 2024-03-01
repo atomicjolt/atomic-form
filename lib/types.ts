@@ -53,7 +53,6 @@ export type FormInputProps<FieldProps, ValueType> =
     Omit<
       FieldProps,
       | "isRequired"
-      | "name"
       | "minLength"
       | "maxLength"
       | "minValue"
