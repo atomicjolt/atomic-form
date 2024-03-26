@@ -1,3 +1,4 @@
+import React from "react";
 import {
   FieldValues,
   FormProvider as ReactHookFormProvider,
@@ -14,7 +15,7 @@ export interface FormProviderProps<TFieldValues extends FieldValues>
 /**
  * Form Provider Component
  * @description Use instead of Form, when you want to call the `useForm()` hook
- * yourself. Form actually uses this component internally.
+ * yourself.
  *
  * @param {FormProviderProps} props
  *
@@ -26,7 +27,7 @@ export interface FormProviderProps<TFieldValues extends FieldValues>
  *
  *  return (
  *   <FormProvider onSubmit={(v) => console.log(v)} {...methods}>
- *     <Form.TextInput name="name" label="Name" required="Name is Required" />
+ *     <Form.TextInput name="name" label="Name" isRequired="Name is Required" />
  *   </FormProvider>
  *  );
  * }
