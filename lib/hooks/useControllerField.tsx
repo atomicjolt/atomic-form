@@ -65,7 +65,7 @@ export function useControllerField(
     }) => {
       const componentProps = {
         ...rest,
-        isRequired: isRequired !== undefined,
+        isRequired: ![undefined, false].includes(isRequired),
         isDisabled: disabled,
         isInvalid: invalid,
         onBlur,
