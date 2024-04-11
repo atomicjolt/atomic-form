@@ -3,10 +3,11 @@ import { ControllerProps, useFormContext } from "react-hook-form";
 
 interface Options {
   passRef?: boolean;
-  excludeProps?: string[];
-  valueProp?: string;
-  defaultValueProp?: string;
-  onChangeProp?: string;
+  aliases?: {
+    onChange?: string;
+    value?: string;
+    defaultValue?: string;
+  };
 }
 
 export function useControllerField(
@@ -33,10 +34,11 @@ export function useControllerField(
 
   const {
     passRef = false,
-    valueProp = "value",
-    excludeProps = [],
-    onChangeProp = "onChange",
-    defaultValueProp = "defaultValue",
+    aliases: {
+      onChange: onChangeAlias = "onChange",
+      value: valueAlias = "value",
+      defaultValue: defaultValueAlias = "defaultValue",
+    } = {},
   } = options;
 
   const { control } = useFormContext();
@@ -44,7 +46,7 @@ export function useControllerField(
   const controlProps: ControllerProps = {
     control,
     name,
-    defaultValue: props[defaultValueProp],
+    defaultValue: props[defaultValueAlias],
     disabled: isDisabled,
     shouldUnregister,
     rules: {
@@ -56,7 +58,7 @@ export function useControllerField(
       pattern,
       validate,
       onBlur,
-      onChange: props[onChangeProp],
+      onChange: props[onChangeAlias],
       deps,
     },
     render: ({
@@ -64,20 +66,15 @@ export function useControllerField(
       fieldState: { invalid, error },
     }) => {
       const componentProps = {
-        ...rest,
         isRequired: ![undefined, false].includes(isRequired),
         isDisabled: disabled,
         isInvalid: invalid,
-        onBlur,
-        [onChangeProp]: onChange,
         error: error?.message,
+        onBlur,
+        [onChangeAlias]: onChange,
+        [valueAlias]: value,
+        ...rest,
       };
-
-      excludeProps.forEach((prop) => {
-        delete componentProps[prop];
-      });
-
-      componentProps[valueProp] = value;
 
       if (passRef) {
         componentProps.ref = ref;

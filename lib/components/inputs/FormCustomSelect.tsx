@@ -14,9 +14,11 @@ export function FormCustomSelect<T extends object>(
   props: FormCustomSelectProps<T>
 ) {
   const controlProps = useControllerField(props, CustomSelect, {
-    valueProp: "selectedKey",
-    defaultValueProp: "defaultSelectedKey",
-    onChangeProp: "onSelectionChange",
+    aliases: {
+      value: "selectedKey",
+      defaultValue: "defaultSelectedKeys",
+      onChange: "onSelectionChange",
+    },
   });
   return <Controller {...controlProps} />;
 }

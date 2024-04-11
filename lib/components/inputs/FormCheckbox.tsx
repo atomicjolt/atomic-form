@@ -8,6 +8,12 @@ export interface FormCheckBoxProps
   extends FormInputProps<CheckBoxProps, CheckBoxProps["isSelected"]> {}
 
 export function FormCheckBox(props: FormCheckBoxProps) {
-  const controlProps = useControllerField(props, CheckBox, { passRef: true, valueProp: "isSelected", defaultValueProp: "defaultSelected" });
+  const controlProps = useControllerField(props, CheckBox, {
+    passRef: true,
+    aliases: {
+      value: "isSelected",
+      defaultValue: "defaultSelected",
+    },
+  });
   return <Controller {...controlProps} />;
 }

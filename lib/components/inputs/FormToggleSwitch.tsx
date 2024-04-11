@@ -10,8 +10,10 @@ export interface FormToggleSwitchProps
 export function FormToggleSwitch(props: FormToggleSwitchProps) {
   const controlProps = useControllerField(props, ToggleSwitch, {
     passRef: true,
-    valueProp: "isSelected",
-    defaultValueProp: "defaultSelected",
+    aliases: {
+      value: "isSelected",
+      defaultValue: "defaultSelected",
+    },
   });
   return <Controller {...controlProps} />;
 }

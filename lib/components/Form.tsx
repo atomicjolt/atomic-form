@@ -4,15 +4,15 @@ import {
   FormCustomSelect,
   FormNumberInput,
   FormSelect,
-  FormTextArea,
+  FormTextAreaInput,
   FormTextInput,
   FormToggleSwitch,
   FormRadioGroup,
   FormComboBox,
+  FormMultiSelect,
 } from "./inputs";
 import { FormProvider } from "./FormProvider";
 import {
-  Option as AtomicElementsOption,
   Radio as AtomicElementsRadio,
   Item as AtomicElementsItem,
   Section as AtomicElementsSection,
@@ -61,13 +61,13 @@ export function Form<TFieldValues extends FieldValues = FieldValues>(
 Form.TextInput = FormTextInput;
 Form.NumberInput = FormNumberInput;
 Form.CheckBox = FormCheckBox;
-Form.TextArea = FormTextArea;
+Form.TextAreaInput = FormTextAreaInput;
 Form.ToggleSwitch = FormToggleSwitch;
 Form.Select = FormSelect;
 Form.CustomSelect = FormCustomSelect;
 Form.Item = AtomicElementsItem;
 Form.Section = AtomicElementsSection;
-Form.Option = AtomicElementsOption;
 Form.RadioGroup = FormRadioGroup;
 Form.Radio = AtomicElementsRadio;
 Form.ComboBox = FormComboBox;
+Form.MultiSelect = FormMultiSelect;

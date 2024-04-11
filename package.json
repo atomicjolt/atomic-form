@@ -37,7 +37,7 @@
     "vite-plugin-dts": "^3.6.0"
   },
   "dependencies": {
-    "@atomicjolt/atomic-elements": "^2.0.0-2",
+    "@atomicjolt/atomic-elements": "^2.0.0",
     "react-hook-form": "^7.47.0"
   }
 }
