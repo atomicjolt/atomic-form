@@ -22,7 +22,7 @@ You must pass the `name` prop to each component in your form. This is the name t
 If an input element does not have the `name` prop, it will not be included in the data in the `onSubmit` callback.
 
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -35,7 +35,7 @@ const MyForm = () => {
          <Form.TextInput name="firstName" label="First Name" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -44,7 +44,7 @@ const MyForm = () => {
 
 ### Default Values
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form  } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -57,7 +57,7 @@ const MyForm = () => {
          <Form.TextInput name="firstName" label="First Name" defaultValue="John" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.Submitbutton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -70,7 +70,7 @@ but they're only exposed on the components that make sense. For example, the `Fo
 the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `minValue` and `maxValue` props, but not vice versa.
 
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form  } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -95,7 +95,7 @@ const MyForm = () => {
             label="Age"
             minValue={{ value: 13, message: "You must be 13 or older to sign up" }}
          />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -127,7 +127,7 @@ const MyForm = () => {
             }
          }
          />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -167,7 +167,7 @@ const MyForm = () => {
             }
          }}
          />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -194,10 +194,10 @@ const MyForm = () => {
 }
 
 const CustomInput = () => {
-   const methods = useFormContext();
+   const { register } = useFormContext();
 
    return (
-      <input {...methods.register("nestedInput")} />
+      <input {...register("nestedInput")} />
    )
 }
 ```
@@ -205,10 +205,11 @@ const CustomInput = () => {
 
 ### FormProvider
 
-You're also free to call the `useForm()` hook yourself if you want. This gives you access to the API at the root of your form as well
+If you want to use the `useForm` hook from `react-hook-form` directly, you can use the `FormProvider` component to pass the form methods down to your form components.
 
 ```jsx
-import { FormProvider, Form, SubmitButton } from '@atomicjolt/forms';
+import { useForm } from 'react-hook-form';
+import { FormProvider, Form } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const methods = useForm();
@@ -222,7 +223,7 @@ const MyForm = () => {
          <Form.TextInput name="firstName" label="First Name" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </FormProvider>
    )
 };
@@ -230,8 +231,8 @@ const MyForm = () => {
 
 ### Submitting the Form
 
-Note that the `SubmitButton` component is not required. You can use any button you want to submit the form.
-The `SubmitButton` component is just a convenience wrapper around atomic-element's Button component with the `type="submit"` prop set.
+Note that the `Form.SubmitButton` component is not required. You can use any button you want to submit the form.
+The `Form.SubmitButton` component is just a convenience wrapper around atomic-element's Button component with the `type="submit"` prop set.
 
 
 ```jsx

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@atomicjolt/atomic-elements@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@atomicjolt/atomic-elements/-/atomic-elements-2.0.0.tgz#23a2905f294e3e0fe71a93b204ba448fcb8c5f9f"
-  integrity sha512-dOjd7v0JUNzqeEnr3hzt/uvWPC43qJkJaj1DyhR3VKh+qA2o0ypP5HCWYNn1wNFZ8/VabBea3vjOJCXauhmnEQ==
+"@atomicjolt/atomic-elements@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@atomicjolt/atomic-elements/-/atomic-elements-2.0.2.tgz#cef7018cded69f0d559cb2a024edd92b82062c33"
+  integrity sha512-2XBXImNVm5A1HA6pRMN/EI5n0SpuaSt/hO7F5Z8sClpeQjvGbTJtmu8oj3ogWHrZp0zcLi+MFagDf+0tjYhhfg==
   dependencies:
     "@internationalized/date" "^3.5.2"
     classnames "^2.3.1"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Form, FormProvider, SubmitButton } from "../lib";
+import { Form, FormProvider } from "../lib";
 import "./App.css";
 
 interface Fields {
@@ -127,7 +127,7 @@ function App() {
 
         <br />
 
-        <Form.ComboBox name="address" label="Address" size="large">
+        <Form.ComboBox name="address" label="Address" size="large" allowsCustomValue>
           <Form.Item key="1234 Main St">1234 Main St</Form.Item>
           <Form.Item key="5678 Elm St">5678 Elm St</Form.Item>
           <Form.Item key="91011 Oak St">91011 Oak St</Form.Item>
@@ -139,6 +139,7 @@ function App() {
           label="How did you hear about us?"
           name="hearAbout"
           size="large"
+          placeholder='Select all that apply'
         >
           <Form.Item key="friend">Friend</Form.Item>
           <Form.Item key="tv">TV</Form.Item>
@@ -174,7 +175,7 @@ function App() {
 
         <br />
 
-        <SubmitButton>Submit</SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </FormProvider>
 
       {value && <pre>{JSON.stringify(value, null, 2)}</pre>}

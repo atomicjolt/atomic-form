@@ -17,6 +17,7 @@ import {
   Item as AtomicElementsItem,
   Section as AtomicElementsSection,
 } from "@atomicjolt/atomic-elements";
+import { SubmitButton } from './SubmitButton';
 
 /** Form Component Props */
 export interface FormProps<TFieldValues extends FieldValues>
@@ -71,3 +72,4 @@ Form.RadioGroup = FormRadioGroup;
 Form.Radio = AtomicElementsRadio;
 Form.ComboBox = FormComboBox;
 Form.MultiSelect = FormMultiSelect;
+Form.SubmitButton = SubmitButton;
