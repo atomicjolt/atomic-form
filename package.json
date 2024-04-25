@@ -1,7 +1,7 @@
 {
   "name": "@atomicjolt/forms",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -37,8 +37,7 @@
     "vite-plugin-dts": "^3.6.0"
   },
   "dependencies": {
-    "@atomicjolt/atomic-elements": "^0.2.0-b1",
-    "@hookform/error-message": "^2.0.1",
+    "@atomicjolt/atomic-elements": "^2.0.2",
     "react-hook-form": "^7.47.0"
   }
 }

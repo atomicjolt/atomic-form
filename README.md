@@ -22,7 +22,7 @@ You must pass the `name` prop to each component in your form. This is the name t
 If an input element does not have the `name` prop, it will not be included in the data in the `onSubmit` callback.
 
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -35,7 +35,7 @@ const MyForm = () => {
          <Form.TextInput name="firstName" label="First Name" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -44,7 +44,7 @@ const MyForm = () => {
 
 ### Default Values
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form  } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -54,59 +54,23 @@ const MyForm = () => {
 
    return (
       <Form onSubmit={onSubmit} defaultValues={{ age: 20 }}>
-         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="firstName" label="First Name" defaultValue="John" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.Submitbutton>Submit</Form.SubmitButton>
       </Form>
    )
 };
 ```
-
-Note that is you're using TypeScript, the data passed to the `onSubmit` callback's type will be inferred on the `defaultValues` prop passed to the `Form` component. Thus, you may want to provide empty default values for any that don't have a default value.
-
-```tsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
-
-type FormData = {
-   firstName: string;
-   lastName: string;
-   age: number;
-}
-
-const MyForm = () => {
-   const onSubmit = (data: FormData) => {
-     console.log(data);
-     // { firstName: "John", lastName: "Doe", age: 21 }
-   }
-
-   const defaults: FormData = {
-      firstName: "",
-      lastName: "",
-      age: 20
-   }
-
-   return (
-      <Form onSubmit={onSubmit} defaultValues={defaults}>
-         <Form.TextInput name="firstName" label="First Name" />
-         <Form.TextInput name="lastName" label="Last Name" />
-         <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
-      </Form>
-   )
-};
-```
-
-
 
 ### Validations
 Each component supports a set of pre-defined validations that can be passed in as props. These props essentially
 match the api of the [`react-hook-form` register() function](https://react-hook-form.com/docs/useform/register),
 but they're only exposed on the components that make sense. For example, the `Form.TextInput` component supports
-the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `min` and `max` props, but not vice versa.
+the `minLength` and `maxLength` props, and the `Form.NumberInput` component supports the `minValue` and `maxValue` props, but not vice versa.
 
 ```jsx
-import { Form, SubmitButton } from '@atomicjolt/forms';
+import { Form  } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const onSubmit = (data) => {
@@ -119,20 +83,19 @@ const MyForm = () => {
             name="firstName"
             label="First Name"
             minLength={{ value: 3, message: "Name must be 3 characters or longer" }}
-            required="First names is required"
+            isRequired="First names is required"
          />
          <Form.TextInput
             name="lastName"
             label="Last Name"
-            required="Last name is Required"
+            isRequired="Last name is Required"
          />
          <Form.NumberInput
             name="age"
             label="Age"
-            min={{ value: 13, message: "You must be 13 or older to sign up" }}
+            minValue={{ value: 13, message: "You must be 13 or older to sign up" }}
          />
-
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -141,6 +104,36 @@ Attempting to submit the above form without valid data will result in the relate
 messages being displayed below each input & the form will not submit.
 
 ### Custom Validations
+```jsx
+import { Form, SubmitButton } from '@atomicjolt/forms';
+
+const MyForm = () => {
+   const onSubmit = (data) => {
+     console.log(data);
+   }
+
+   return (
+      <Form onSubmit={onSubmit}>
+         <Form.TextInput name="firstName" label="First Name" />
+         <Form.TextInput name="lastName" label="Last Name" />
+         <Form.TextInput name="email" label="Email" validate={(value) => {
+               if (!value) {
+                  return "Email is required";
+               }
+               if (!value.includes("@")) {
+                  return "Email must be valid";
+               }
+               return true;
+            }
+         }
+         />
+         <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form>
+   )
+};
+```
+If you have multiple validations, you can also pass in an object
+
 ```jsx
 import { Form, SubmitButton } from '@atomicjolt/forms';
 
@@ -163,9 +156,18 @@ const MyForm = () => {
                }
                return true;
             }
+            isDomainEmail: (value) => {
+               if (!value) {
+                  return "Email is required";
+               }
+               if (!value.includes("@domain.com")) {
+                  return "Email must be from domain.com";
+               }
+               return true;
+            }
          }}
          />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </Form>
    )
 };
@@ -192,10 +194,10 @@ const MyForm = () => {
 }
 
 const CustomInput = () => {
-   const methods = useFormContext();
+   const { register } = useFormContext();
 
    return (
-      <input {...methods.register("nestedInput")} />
+      <input {...register("nestedInput")} />
    )
 }
 ```
@@ -203,10 +205,11 @@ const CustomInput = () => {
 
 ### FormProvider
 
-You're also free to call the `useForm()` hook yourself if you want. This gives you access to the API at the root of your form as well
+If you want to use the `useForm` hook from `react-hook-form` directly, you can use the `FormProvider` component to pass the form methods down to your form components.
 
 ```jsx
-import { FormProvider, Form, SubmitButton } from '@atomicjolt/forms';
+import { useForm } from 'react-hook-form';
+import { FormProvider, Form } from '@atomicjolt/forms';
 
 const MyForm = () => {
    const methods = useForm();
@@ -220,7 +223,7 @@ const MyForm = () => {
          <Form.TextInput name="firstName" label="First Name" />
          <Form.TextInput name="lastName" label="Last Name" />
          <Form.NumberInput name="age" label="Age" />
-         <SubmitButton>Submit</SubmitButton>
+         <Form.SubmitButton>Submit</Form.SubmitButton>
       </FormProvider>
    )
 };
@@ -228,8 +231,8 @@ const MyForm = () => {
 
 ### Submitting the Form
 
-Note that the `SubmitButton` component is not required. You can use any button you want to submit the form.
-The `SubmitButton` component is just a convenience wrapper around atomic-element's Button component with the `type="submit"` prop set.
+Note that the `Form.SubmitButton` component is not required. You can use any button you want to submit the form.
+The `Form.SubmitButton` component is just a convenience wrapper around atomic-element's Button component with the `type="submit"` prop set.
 
 
 ```jsx

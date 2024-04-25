@@ -9,6 +9,7 @@ export type SubmitButtonProps = Omit<ButtonProps, "type">;
 export function SubmitButton(props: SubmitButtonProps) {
   const { children, ...rest } = props;
 
+
   return (
     // It's being weird with loading props, so we'll just ignore it for now
     // @ts-ignore

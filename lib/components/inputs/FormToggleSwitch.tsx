@@ -1,28 +1,19 @@
-import { useWatch } from "react-hook-form";
 import { ToggleSwitch } from "@atomicjolt/atomic-elements";
 import type { ToggleSwitchProps } from "@atomicjolt/atomic-elements";
-
+import { Controller } from "react-hook-form";
 import { FormInputProps } from "../../types";
-import { useFormInput } from "../../hooks/useFormInput";
+import { useControllerField } from "../../hooks/useControllerField";
 
-export type FormToggleSwitchProps = FormInputProps<
-  ToggleSwitchProps,
-  | "min"
-  | "minLength"
-  | "max"
-  | "maxLength"
-  | "valueAsDate"
-  | "valueAsNumber"
-  | "setValueAs"
-  | "required"
->;
+export interface FormToggleSwitchProps
+  extends FormInputProps<ToggleSwitchProps, ToggleSwitchProps["isSelected"]> {}
 
 export function FormToggleSwitch(props: FormToggleSwitchProps) {
-  const checked = useWatch({ name: props.name, defaultValue: false });
-
-  const [componentProps, registration] = useFormInput<ToggleSwitchProps>(props);
-
-  return (
-    <ToggleSwitch {...registration} {...componentProps} checked={checked} />
-  );
+  const controlProps = useControllerField(props, ToggleSwitch, {
+    passRef: true,
+    aliases: {
+      value: "isSelected",
+      defaultValue: "defaultSelected",
+    },
+  });
+  return <Controller {...controlProps} />;
 }
