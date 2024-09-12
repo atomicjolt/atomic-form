@@ -11,7 +11,7 @@ export interface FormNumberFieldProps
 
 export function FormNumberField(props: FormNumberFieldProps) {
   const controlProps = useControllerField(props, NumberField, {
-    passRef: true,
+    passRef: false,
   });
   return <Controller {...controlProps} />;
 }
