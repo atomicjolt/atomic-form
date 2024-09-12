@@ -10,14 +10,20 @@ import {
   FormRadioGroup,
   FormComboBox,
   FormMultiSelect,
+  FormTextField,
+  FormNumberField,
 } from "./inputs";
 import { FormProvider } from "./FormProvider";
 import {
   Radio as AtomicElementsRadio,
   Item as AtomicElementsItem,
   Section as AtomicElementsSection,
+  FieldInput,
+  FieldLabel,
+  FieldMessage,
+  FieldErrorMessage,
 } from "@atomicjolt/atomic-elements";
-import { SubmitButton } from './SubmitButton';
+import { SubmitButton } from "./SubmitButton";
 
 /** Form Component Props */
 export interface FormProps<TFieldValues extends FieldValues>
@@ -60,7 +66,9 @@ export function Form<TFieldValues extends FieldValues = FieldValues>(
 }
 
 Form.TextInput = FormTextInput;
+Form.TextField = FormTextField;
 Form.NumberInput = FormNumberInput;
+Form.NumberField = FormNumberField;
 Form.CheckBox = FormCheckBox;
 Form.TextAreaInput = FormTextAreaInput;
 Form.ToggleSwitch = FormToggleSwitch;
@@ -73,3 +81,7 @@ Form.Radio = AtomicElementsRadio;
 Form.ComboBox = FormComboBox;
 Form.MultiSelect = FormMultiSelect;
 Form.SubmitButton = SubmitButton;
+Form.FieldInput = FieldInput;
+Form.FieldLabel = FieldLabel;
+Form.FieldMessage = FieldMessage;
+Form.FieldErrorMessage = FieldErrorMessage;

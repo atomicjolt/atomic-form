@@ -19,11 +19,11 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@atomicjolt/atomic-elements": "^2.6.0",
+    "@atomicjolt/atomic-elements": "^2.6.3",
     "react-hook-form": "^7.47.0"
   },
   "devDependencies": {
-    "@atomicjolt/atomic-elements": "^2.6.0",
+    "@atomicjolt/atomic-elements": "^2.6.3",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

@@ -1,8 +1,7 @@
 import { ComboBox } from "@atomicjolt/atomic-elements";
-import type { ComboBoxProps } from "@atomicjolt/atomic-elements";
+import type { Key, ComboBoxProps } from "@atomicjolt/atomic-elements";
 import { Controller, ControllerProps, useFormContext } from "react-hook-form";
 import { FormInputProps } from "../../types";
-import { Key } from "react-aria";
 
 export interface FormComboBoxProps<T extends object>
   extends FormInputProps<ComboBoxProps<T>, ComboBoxProps<T>["selectedKey"]> {}

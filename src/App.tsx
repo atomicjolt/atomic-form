@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormProvider } from "../lib";
 import "./App.css";
+import { FieldInput, FieldLabel } from "@atomicjolt/atomic-elements";
 
 interface Fields {
   name: string;
@@ -48,7 +49,7 @@ function App() {
   return (
     <div>
       <FormProvider {...methods} onSubmit={(v) => setValue(v)}>
-        <Form.TextInput
+        {/* <Form.TextInput
           name="name"
           label="Name"
           size="large"
@@ -62,7 +63,26 @@ function App() {
             value: /[a-z]/,
             message: "Name must contain a lowercase letter",
           }}
-        />
+        /> */}
+        <Form.TextField
+          name="name"
+          size="large"
+          isRequired="Name is Required"
+          maxLength={{
+            value: 10,
+            message: "Name must be less than 10 characters",
+          }}
+          validate={(v) => (v === "1234" ? "Name cannot be 1234" : undefined)}
+          pattern={{
+            value: /[a-z]/,
+            message: "Name must contain a lowercase letter",
+          }}
+        >
+          <Form.FieldLabel>Name</Form.FieldLabel>
+          <Form.FieldMessage>Enter your name</Form.FieldMessage>
+          <Form.FieldInput />
+        </Form.TextField>
+
         <br />
         <Form.TextAreaInput
           name="description"
@@ -127,7 +147,12 @@ function App() {
 
         <br />
 
-        <Form.ComboBox name="address" label="Address" size="large" allowsCustomValue>
+        <Form.ComboBox
+          name="address"
+          label="Address"
+          size="large"
+          allowsCustomValue
+        >
           <Form.Item key="1234 Main St">1234 Main St</Form.Item>
           <Form.Item key="5678 Elm St">5678 Elm St</Form.Item>
           <Form.Item key="91011 Oak St">91011 Oak St</Form.Item>
@@ -139,7 +164,7 @@ function App() {
           label="How did you hear about us?"
           name="hearAbout"
           size="large"
-          placeholder='Select all that apply'
+          placeholder="Select all that apply"
         >
           <Form.Item key="friend">Friend</Form.Item>
           <Form.Item key="tv">TV</Form.Item>

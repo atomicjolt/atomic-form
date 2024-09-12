@@ -8,3 +8,5 @@ export { FormCustomSelect } from "./FormCustomSelect";
 export { FormRadioGroup } from "./FormRadioGroup";
 export { FormComboBox } from "./FormComboBox";
 export { FormMultiSelect } from "./FormMultiSelect";
+export { FormTextField } from "./FormTextField";
+export { FormNumberField } from "./FormNumberField";
