@@ -1,12 +1,11 @@
 import { TextInput } from "@atomicjolt/atomic-elements";
 import type { TextInputProps } from "@atomicjolt/atomic-elements";
-import { Controller } from "react-hook-form";
 import {
   FormInputProps,
   LengthValdiators,
   PatternValidators,
 } from "../../types";
-import { useControllerField } from "../../hooks/useControllerField";
+import { useFormField } from "../../hooks/useFormField";
 
 export interface FormTextInputProps
   extends FormInputProps<TextInputProps, TextInputProps["value"]>,
@@ -14,6 +13,10 @@ export interface FormTextInputProps
     PatternValidators {}
 
 export function FormTextInput(props: FormTextInputProps) {
-  const controlProps = useControllerField(props, TextInput, { passRef: true });
-  return <Controller {...controlProps} />;
+  const { fieldProps, inputProps, ref } = useFormField<
+    TextInputProps,
+    TextInputProps["value"]
+  >(props);
+
+  return <TextInput {...fieldProps} {...inputProps} ref={ref} />;
 }

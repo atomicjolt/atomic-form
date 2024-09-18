@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormProvider } from "../lib";
 import "./App.css";
-import { FieldInput, FieldLabel } from "@atomicjolt/atomic-elements";
 
 interface Fields {
   name: string;
@@ -39,8 +38,6 @@ const defaultValues: Fields = {
 function App() {
   const [value, setValue] = useState<any>(null);
   const methods = useForm<Fields>({ defaultValues });
-
-  console.log(value);
 
   const desc = methods.watch("description");
   const ethnicity = methods.watch("ethnicity.choice");
