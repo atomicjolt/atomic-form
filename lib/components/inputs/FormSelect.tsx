@@ -1,12 +1,11 @@
 import { Select } from "@atomicjolt/atomic-elements";
 import type { SelectProps, SelectValue } from "@atomicjolt/atomic-elements";
-import { Controller } from "react-hook-form";
 import {
   FormInputProps,
   LengthValdiators,
   PatternValidators,
 } from "../../types";
-import { useControllerField } from "../../hooks/useControllerField";
+import { useFormField } from "../../hooks/useFormField";
 
 export interface FormSelectProps<T extends SelectValue>
   extends FormInputProps<SelectProps<T>, SelectProps<T>["value"]>,
@@ -14,6 +13,10 @@ export interface FormSelectProps<T extends SelectValue>
     PatternValidators {}
 
 export function FormSelect<T extends SelectValue>(props: FormSelectProps<T>) {
-  const controlProps = useControllerField(props, Select, { passRef: true });
-  return <Controller {...controlProps} />;
+  const { fieldProps, inputProps, ref } = useFormField<
+    SelectProps<T>,
+    SelectProps<T>["value"]
+  >(props);
+
+  return <Select {...fieldProps} {...inputProps} ref={ref} />;
 }

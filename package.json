@@ -1,7 +1,7 @@
 {
   "name": "@atomicjolt/forms",
   "private": false,
-  "version": "0.3.0",
+  "version": "0.6.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -18,9 +18,12 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@atomicjolt/atomic-elements": "^2.6.3",
+    "react-hook-form": "^7.47.0"
   },
   "devDependencies": {
+    "@atomicjolt/atomic-elements": "^2.6.3",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -34,10 +37,7 @@
     "typedoc": "^0.25.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.6.0"
-  },
-  "dependencies": {
-    "@atomicjolt/atomic-elements": "^2.0.2",
+    "vite-plugin-dts": "^3.6.0",
     "react-hook-form": "^7.47.0"
   }
 }

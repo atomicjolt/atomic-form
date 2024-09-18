@@ -1,19 +1,25 @@
 import { CheckBox } from "@atomicjolt/atomic-elements";
 import type { CheckBoxProps } from "@atomicjolt/atomic-elements";
-import { Controller } from "react-hook-form";
 import { FormInputProps } from "../../types";
-import { useControllerField } from "../../hooks/useControllerField";
+import { useFormField } from "../../hooks/useFormField";
 
-export interface FormCheckBoxProps
-  extends FormInputProps<CheckBoxProps, CheckBoxProps["isSelected"]> {}
+export type FormCheckBoxProps = FormInputProps<
+  CheckBoxProps,
+  CheckBoxProps["isSelected"]
+>;
 
 export function FormCheckBox(props: FormCheckBoxProps) {
-  const controlProps = useControllerField(props, CheckBox, {
-    passRef: true,
-    aliases: {
-      value: "isSelected",
-      defaultValue: "defaultSelected",
-    },
-  });
-  return <Controller {...controlProps} />;
+  const { fieldProps, inputProps, ref } = useFormField<
+    CheckBoxProps,
+    CheckBoxProps["isSelected"]
+  >({ ...props, defaultValue: props.defaultSelected });
+
+  return (
+    <CheckBox
+      ref={ref}
+      isSelected={inputProps.value}
+      onChange={inputProps.onChange}
+      {...fieldProps}
+    />
+  );
 }

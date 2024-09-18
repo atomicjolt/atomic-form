@@ -1,22 +1,21 @@
-import { TextAreaInput } from "@atomicjolt/atomic-elements";
-import type { TextareaProps } from "@atomicjolt/atomic-elements";
-import { Controller } from "react-hook-form";
-
+import { TextAreaInput, TextareaProps } from "@atomicjolt/atomic-elements";
 import {
   FormInputProps,
   LengthValdiators,
   PatternValidators,
 } from "../../types";
-import { useControllerField } from "../../hooks/useControllerField";
+import { useFormField } from "../../hooks/useFormField";
 
-export interface TextAreaInputProps
+export interface FormTextAreaInputProps
   extends FormInputProps<TextareaProps, TextareaProps["value"]>,
     LengthValdiators,
     PatternValidators {}
 
-export function FormTextAreaInput(props: TextAreaInputProps) {
-  const controlProps = useControllerField(props, TextAreaInput, {
-    passRef: true,
-  });
-  return <Controller {...controlProps} />;
+export function FormTextAreaInput(props: FormTextAreaInputProps) {
+  const { fieldProps, inputProps, ref } = useFormField<
+    TextareaProps,
+    TextareaProps["value"]
+  >(props);
+
+  return <TextAreaInput {...fieldProps} {...inputProps} ref={ref} />;
 }

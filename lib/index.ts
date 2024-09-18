@@ -14,3 +14,5 @@ export type { FormCustomSelectProps } from "./components/inputs/FormCustomSelect
 export type { FormRadioGroupProps } from "./components/inputs/FormRadioGroup";
 export type { FormComboBoxProps } from "./components/inputs/FormComboBox";
 export type { FormMultiSelectProps } from "./components/inputs/FormMultiSelect";
+export type { FormTextFieldProps } from "./components/inputs/FormTextField";
+export type { FormNumberFieldProps } from "./components/inputs/FormNumberField";
