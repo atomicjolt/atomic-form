@@ -1,6 +1,10 @@
 ![Atomic Form Logo](./AtomicForm.png)
 
 # @atomicjolt/forms
+
+>[!IMPORTANT] 
+> This project is now maintained as part of [this repository](https://github.com/atomicjolt/atomic-libs)
+
 `@atomicjoplt/forms` is a collection of React components for building forms, built on top of [react-hook-form](https://react-hook-form.com/) and [atomic-elements](https://atomicjolt.github.io/atomic-elements).
 
 ## Installation
